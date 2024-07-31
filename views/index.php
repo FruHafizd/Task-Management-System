@@ -1,6 +1,7 @@
 <?php 
 include('../template/header.php');
 include('../controllers/authentication.php');
+include('../template/topbar.php');
 ?>
 
 
@@ -14,7 +15,7 @@ include('../controllers/authentication.php');
 
 
 
-<a href="../controllers/logout.php">Logout</a>
+
 
 
 
