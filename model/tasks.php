@@ -81,6 +81,30 @@ class Tasks
             }
         }
     }
+
+    public function deleteTaskById()
+    {
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+            $id = intval($_GET['id']); // Pastikan ID adalah integer
+
+            $query = "DELETE FROM tasks WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                $_SESSION['status'] = "Delete Task Successfully";
+            } else {
+                $_SESSION['status'] = "Delete Task Failed";
+            }
+        } else {
+            $_SESSION['status'] = "Invalid Task ID";
+        }
+
+        header("Location: ../views/listTask.php");
+        exit();
+    }
+
+
 }
 
 $code = new Tasks();

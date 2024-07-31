@@ -34,7 +34,7 @@ include('../template/topbar.php');
                         <td><?= $data['status'] ?></td>
                         <td>
                             <a href="updateTask.php?id=<?= $data['id'] ?>" class="btn btn-success" style="color: white;">Edit</a>
-                            <a href="proses?id=<?= $data['id'] ?>" class="btn btn-danger" style="color: white;">Hapus</a>
+                            <a href="javascript:void(0);" onclick="confirmDelete(<?= $data['id'] ?>)" class="btn btn-danger" style="color: white;">Hapus</a>
                         </td>
                     </tr>
                     <?php } ?>

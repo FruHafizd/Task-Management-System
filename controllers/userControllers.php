@@ -87,6 +87,7 @@ class UserControllers
                         {
                             $_SESSION['authenticated'] = TRUE;
                             $_SESSION['auth_user'] = [
+                                'user_id' => $row['id'],
                                 'username' => $row['name'],
                                 'phone' => $row['phone'],
                                 'email' => $row['email'],
@@ -292,8 +293,38 @@ class UserControllers
         }
     }
 
+    public function getUserById($email)
+    {   
+        $query = "SELECT * FROM users WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $email, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+    public function updateUser()
+    {
+        if (isset($_POST['update_profile'])) {
+            $name = $_POST['name'];
+            $phone = $_POST['phone'];
+            $id = $_POST['email'];
+            
+            $query = "UPDATE users SET name = :name, phone = :phone WHERE email = :email";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':email', $id, PDO::PARAM_STR);
+            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+            $stmt->bindParam(':phone', $phone, PDO::PARAM_INT);
+            $stmt->execute();
 
+            if ($stmt) {
+                $_SESSION['status'] = "Login Again";
+                header("Location: logout.php");
+            } else {
+                $_SESSION['status'] = "Update Profile Failed";
+                header("Location: ../views/updateTask.php");
+            }
+        }
+    }
 
 }
 
@@ -303,3 +334,4 @@ $code->login();
 $code->resendEmail();
 $code->passwordResetLink();
 $code->passwordUpdate();
+$code->updateUser();
